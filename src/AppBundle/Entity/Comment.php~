@@ -1,0 +1,76 @@
+<?php
+
+namespace AppBundle\Entity;
+
+/**
+ * User: doug
+ * Date: 4/24/17
+ * Time: 11:39 PM
+ */
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="comments")
+ * @ORM\Entity()
+ */
+class Comment
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column()
+     * @ORM\GeneratedValue()
+     */
+    private $id;
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $title;
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $body;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     */
+    private $post;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent")
+     */
+    private $children;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     */
+    private $parent;
+
+    /**
+     * Status flag for Comment.
+     * Rather than a retired, locked, expired etc column, have put all in one and all tables can then share the same lookup table
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="comments")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+    private $status;
+
+    /**
+     * Upvotes/Likes
+     * @ORM\Column(type="integer", length=100)
+     */
+    private $likes;
+
+    /**
+     * Down-votes/DisLikes
+     * @ORM\Column(type="integer", length=100)
+     */
+    private $dislikes;
+
+}

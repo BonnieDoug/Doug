@@ -1,0 +1,80 @@
+<?php
+
+
+namespace AppBundle\Entity;
+
+/**
+ * User: doug
+ * Date: 4/24/17
+ * Time: 11:41 PM
+ */
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="images")
+ * @ORM\Entity()
+ */
+class Image
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column()
+     * @ORM\GeneratedValue()
+     */
+    private $id;
+
+    /** @ORM\Column(type="string", length=200) */
+    private $name;
+
+    /** @ORM\Column(type="string", length=200) */
+    private $fileName;
+
+    /** @ORM\Column(type="string", length=200) */
+    private $urlSafeName;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="images")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="images")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $post;
+
+    /**
+     * Status flag for Image.
+     * Rather than a retired, locked, expired etc column, have put all in one and all tables can then share the same lookup table
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="images")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+    private $status;
+
+    /**
+     * Upvotes/Likes
+     * @ORM\Column(type="integer", length=100)
+     */
+    private $likes;
+
+    /**
+     * Down-votes/DisLikes
+     * @ORM\Column(type="integer", length=100)
+     */
+    private $dislikes;
+
+    /**
+     * Many Posts have Many Categories.
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="images")
+     * @ORM\JoinTable(name="images_categories")
+     */
+    private $categories;
+
+
+}

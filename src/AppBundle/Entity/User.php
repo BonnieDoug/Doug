@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Entity;
+
 /**
  * User: doug
  * Date: 4/24/17
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Table(name="app_users")
+ * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User implements UserInterface, \Serializable
@@ -43,65 +44,50 @@ class User implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="user")
+     */
     private $posts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="user")
+     */
+    private $images;
+
+    /**
+     * Status flag for User.
+     * Rather than a retired, locked, expired etc column, have put all in one and all tables can then share the same lookup table
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="users")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
     private $status;
 
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="userFriends")
+     */
+    private $friendsWithUser;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithUser")
+     * @ORM\JoinTable(name="friends",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
+     *      )
+     */
+    private $userFriends;
+
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->isActive = true;
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid(null, true));
-    }
-
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    public function getSalt()
-    {
-        // you *may* need a real salt depending on your encoder
-        // see section on salt below
-        return null;
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt
-            ) = unserialize($serialized);
+        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->friendsWithUser = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userFriends = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -129,6 +115,16 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
      * Set password
      *
      * @param string $password
@@ -140,6 +136,16 @@ class User implements UserInterface, \Serializable
         $this->password = $password;
 
         return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 
     /**
@@ -189,4 +195,205 @@ class User implements UserInterface, \Serializable
     {
         return $this->isActive;
     }
+
+    /**
+     * Add post
+     *
+     * @param \AppBundle\Entity\Post $post
+     *
+     * @return User
+     */
+    public function addPost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \AppBundle\Entity\Post $post
+     */
+    public function removePost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * Add image
+     *
+     * @param \AppBundle\Entity\Image $image
+     *
+     * @return User
+     */
+    public function addImage(\AppBundle\Entity\Image $image)
+    {
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param \AppBundle\Entity\Image $image
+     */
+    public function removeImage(\AppBundle\Entity\Image $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \AppBundle\Entity\Status $status
+     *
+     * @return User
+     */
+    public function setStatus(\AppBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \AppBundle\Entity\Status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Add friendsWithUser
+     *
+     * @param \AppBundle\Entity\User $friendsWithUser
+     *
+     * @return User
+     */
+    public function addFriendsWithUser(\AppBundle\Entity\User $friendsWithUser)
+    {
+        $this->friendsWithUser[] = $friendsWithUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove friendsWithUser
+     *
+     * @param \AppBundle\Entity\User $friendsWithUser
+     */
+    public function removeFriendsWithUser(\AppBundle\Entity\User $friendsWithUser)
+    {
+        $this->friendsWithUser->removeElement($friendsWithUser);
+    }
+
+    /**
+     * Get friendsWithUser
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFriendsWithUser()
+    {
+        return $this->friendsWithUser;
+    }
+
+    /**
+     * Add userFriend
+     *
+     * @param \AppBundle\Entity\User $userFriend
+     *
+     * @return User
+     */
+    public function addUserFriend(\AppBundle\Entity\User $userFriend)
+    {
+        $this->userFriends[] = $userFriend;
+
+        return $this;
+    }
+
+    /**
+     * Remove userFriend
+     *
+     * @param \AppBundle\Entity\User $userFriend
+     */
+    public function removeUserFriend(\AppBundle\Entity\User $userFriend)
+    {
+        $this->userFriends->removeElement($userFriend);
+    }
+
+    /**
+     * Get userFriends
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserFriends()
+    {
+        return $this->userFriends;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(
+            array(
+                $this->id,
+                $this->username,
+                $this->password,
+                // see section on salt below
+                // $this->salt,
+            )
+        );
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
+    }
+
+    public function getSalt()
+    {
+        return false;
+    }
+
 }

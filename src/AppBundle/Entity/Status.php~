@@ -1,0 +1,55 @@
+<?php
+
+namespace AppBundle\Entity;
+
+/**
+ * User: doug
+ * Date: 4/24/17
+ * Time: 11:39 PM
+ */
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="status")
+ * @ORM\Entity()
+ */
+class Status
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column()
+     * @ORM\GeneratedValue()
+     */
+    private $id;
+
+    /** @ORM\Column(type="string", length=200) */
+    private $name;
+
+    /**
+     * Status flag for Status.
+     * The one place where retired is used instead of status, as really they can only be on/off and a join could cause issues long term.
+     * @ORM\Column(type="boolean")
+     */
+    private $retired;
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="status")
+     */
+    private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="status")
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="status")
+     */
+    private $posts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="status")
+     */
+    private $images;
+
+}

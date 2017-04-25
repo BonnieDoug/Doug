@@ -64,4 +64,8 @@
 
 # Backup entities generated with doctrine:generate:entities command
 */Entity/*~
-/.ideas/
+
+/nbproject/private/
+/nbproject/
+/.idea/
+

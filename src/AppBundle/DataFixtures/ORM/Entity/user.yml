@@ -1,0 +1,7 @@
+AppBundle\Entity\User:
+    user_{2..100}:
+        username (unique): '<username()>'
+        password: 'password'
+        email: '<email()>'
+        status: '@status_*'
+

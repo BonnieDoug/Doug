@@ -1,0 +1,13 @@
+AppBundle\Entity\Status:
+    status_active:
+          name: "Active"
+          retired: false
+    status_inactive:
+          name: "In-Active"
+          retired: false
+    status_banned:
+          name: "Banned"
+          retired: false
+    status_retired:
+          name: "Retired"
+          retired: false

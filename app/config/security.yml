@@ -20,16 +20,10 @@ security:
             pattern:    ^/
             provider: db_provider
             anonymous: ~
-            form_login:
-                login_path: login
-                check_path: login
-                default_target_path: default_security_target
-                target_path_parameter: login_success
-                failure_path_parameter: login_fail
-            # activate different ways to authenticate
-
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
-
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-            #form_login: ~
+            guard:
+                authenticators:
+                    - app.security.login_form_authenticator
+            logout:
+                path: /logout
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }

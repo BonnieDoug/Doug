@@ -37,4 +37,12 @@ class SecurityController extends Controller
             )
         );
     }
+
+    /**
+     * @Route("/logout", name="security_logout")
+     */
+    public function logoutAction()
+    {
+        throw new \Exception('Hm, you shouldn\'t be here!');
+    }
 }

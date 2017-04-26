@@ -1,0 +1,33 @@
+AppBundle\Entity\Category:
+      category_blog_post:
+          name: "Blog"
+          status: '@status_active'
+      category_blog_post_programming:
+          name: "Programming"
+          status: '@status_active'
+          parent: '@category_blog_post'
+      category_blog_post_php:
+          name: "PHP"
+          status: '@status_active'
+          parent: '@category_blog_post_programming'
+      category_blog_post_symfony:
+          name: "Symfony"
+          status: '@status_active'
+          parent: '@category_blog_post_php'
+      category_blog_post_doctrine:
+          name: "Doctrine"
+          status: '@status_active'
+          parent: '@category_blog_post_php'
+      category_blog_post_css:
+          name: "CSS"
+          status: '@status_active'
+          parent: '@category_blog_post_programming'
+      category_blog_post_js:
+          name: "JavaScript"
+          status: '@status_active'
+          parent: '@category_blog_post_programming'
+      category_blog_post_jquery:
+          name: "jQuery"
+          status: '@status_active'
+          parent: '@category_blog_post_jquery'
+

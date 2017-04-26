@@ -1,0 +1,10 @@
+AppBundle\Entity\Post:
+    post{2..100}:
+        title: '<realText(70)>'
+        body: '<realText(2000)>'
+        likes: '<numberBetween(1, 1000)>'
+        dislikes: '<numberBetween(1, 1000)>'
+        user: '@user_*'
+        categories: ['@category_blog_post_*']
+        status: '@status_*'
+

@@ -17,8 +17,8 @@ class Post
 {
     /**
      * @ORM\Id
-     * @ORM\Column()
-     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

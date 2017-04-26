@@ -10,7 +10,8 @@ framework:
 web_profiler:
     toolbar: true
     intercept_redirects: false
-
+#hautelook_alice:
+#    fixtures_path: ''
 monolog:
     handlers:
         main:

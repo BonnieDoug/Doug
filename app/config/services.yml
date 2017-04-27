@@ -12,3 +12,7 @@ services:
     app.security.login_form_authenticator:
         class: AppBundle\Security\LoginFormAuthenticator
         autowire: true
+    alice.processor.user:
+        class: AppBundle\DataFixtures\ORM\Processor\UserProcessor
+        arguments: ["@security.password_encoder"]
+        tags: [ { name: hautelook_alice.alice.processor } ]

@@ -15,6 +15,15 @@ use Nelmio\Alice\Fixtures;
 
 class AppFixtures implements FixtureInterface
 {
+    public function encodePassword(User $user, $plainPassword)
+    {
+        /** @var \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface $encoder */
+        $encoder = $this->container->get('security.encoder_factory')
+            ->getEncoder($user);
+        return $encoder->encodePassword($plainPassword, $user->getSalt());
+    }
+
+
     /**
      * {@inheritDoc}
      */

@@ -1,0 +1,25 @@
+{
+  "name": "doug",
+  "version": "1.0.0",
+  "description": "Doug ====",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BonnieDoug/Doug.git"
+  },
+  "author": "Doug",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BonnieDoug/Doug/issues"
+  },
+  "homepage": "https://github.com/BonnieDoug/Doug#readme",
+  "devDependencies": {
+    "bower": "^1.8.0"
+  }
+}

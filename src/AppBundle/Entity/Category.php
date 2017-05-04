@@ -7,9 +7,11 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @author dhayward
  * @ORM\Table(name="categories")
  * @ORM\Entity()
  */
@@ -60,9 +62,9 @@ class Category
      */
     public function __construct()
     {
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     /**

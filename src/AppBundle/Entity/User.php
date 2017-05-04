@@ -8,6 +8,7 @@ namespace AppBundle\Entity;
  * Time: 11:37 PM
  */
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
@@ -91,10 +92,10 @@ class User implements AdvancedUserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
-        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->friendsWithUser = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->userFriends = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->friendsWithUser = new ArrayCollection();
+        $this->userFriends = new ArrayCollection();
     }
 
     /**

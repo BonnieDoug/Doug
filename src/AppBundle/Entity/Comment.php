@@ -7,6 +7,7 @@ namespace AppBundle\Entity;
  * Date: 4/24/17
  * Time: 11:39 PM
  */
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -78,7 +79,7 @@ class Comment
      */
     public function __construct()
     {
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**

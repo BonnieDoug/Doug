@@ -8,6 +8,7 @@ namespace AppBundle\Entity;
  * Date: 4/24/17
  * Time: 11:41 PM
  */
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -82,7 +83,7 @@ class Image
      */
     public function __construct()
     {
-        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     /**

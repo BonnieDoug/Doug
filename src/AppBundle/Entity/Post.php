@@ -7,6 +7,7 @@ namespace AppBundle\Entity;
  * Date: 4/24/17
  * Time: 11:38 PM
  */
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -88,9 +89,9 @@ class Post
      */
     public function __construct()
     {
-        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     /**

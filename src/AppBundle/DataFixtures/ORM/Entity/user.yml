@@ -1,12 +1,12 @@
 AppBundle\Entity\User:
     user_1:
         username: 'admin'
-        password: "<encodepassword()>"
+        password: "<encodepassword('password')>"
         email: 'admin@email.com'
         status: '@status_active'
     user_{2..100}:
         username (unique): '<username()>'
-        password: "<encodepassword()>"
+        password: "<encodepassword('password')>"
         email: '<email()>'
         status: '@status_*'
 

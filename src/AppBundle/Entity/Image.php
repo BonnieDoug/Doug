@@ -45,7 +45,7 @@ class Image
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="images")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $post;
@@ -267,7 +267,7 @@ class Image
     /**
      * Set post
      *
-     * @param \AppBundle\Entity\User $post
+     * @param \AppBundle\Entity\Post $post
      *
      * @return Image
      */
@@ -281,7 +281,7 @@ class Image
     /**
      * Get post
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\Post
      */
     public function getPost()
     {

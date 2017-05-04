@@ -54,6 +54,11 @@ class Status
     private $images;
 
     /**
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="status")
+     */
+    private $categories;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -62,6 +67,11 @@ class Status
         $this->comments = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->images = new ArrayCollection();
+    }
+
+    function __toString()
+    {
+        return (string) $this->getName();
     }
 
     /**
@@ -256,5 +266,39 @@ class Status
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \AppBundle\Entity\Category $category
+     *
+     * @return Status
+     */
+    public function addCategory(\AppBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \AppBundle\Entity\Category $category
+     */
+    public function removeCategory(\AppBundle\Entity\Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

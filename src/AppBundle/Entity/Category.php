@@ -67,6 +67,11 @@ class Category
         $this->images = new ArrayCollection();
     }
 
+    function __toString()
+    {
+        return (string) $this->getName();
+    }
+
     /**
      * Get id
      *

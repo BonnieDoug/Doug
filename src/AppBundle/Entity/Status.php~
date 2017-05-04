@@ -7,6 +7,7 @@ namespace AppBundle\Entity;
  * Date: 4/24/17
  * Time: 11:39 PM
  */
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,8 +18,8 @@ class Status
 {
     /**
      * @ORM\Id
-     * @ORM\Column()
-     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -43,13 +44,222 @@ class Status
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="status")
      */
     private $posts;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="status")
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="status")
+     */
+    private $categories;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->images = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Status
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set retired
+     *
+     * @param boolean $retired
+     *
+     * @return Status
+     */
+    public function setRetired($retired)
+    {
+        $this->retired = $retired;
+
+        return $this;
+    }
+
+    /**
+     * Get retired
+     *
+     * @return boolean
+     */
+    public function getRetired()
+    {
+        return $this->retired;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Status
+     */
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Status
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add post
+     *
+     * @param \AppBundle\Entity\Comment $post
+     *
+     * @return Status
+     */
+    public function addPost(\AppBundle\Entity\Comment $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \AppBundle\Entity\Comment $post
+     */
+    public function removePost(\AppBundle\Entity\Comment $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * Add image
+     *
+     * @param \AppBundle\Entity\Comment $image
+     *
+     * @return Status
+     */
+    public function addImage(\AppBundle\Entity\Comment $image)
+    {
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param \AppBundle\Entity\Comment $image
+     */
+    public function removeImage(\AppBundle\Entity\Comment $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
 }

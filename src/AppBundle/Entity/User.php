@@ -85,6 +85,10 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $userFriends;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
+     */
+    private $comments;
 
     /**
      * Constructor
@@ -96,6 +100,11 @@ class User implements AdvancedUserInterface, \Serializable
         $this->images = new ArrayCollection();
         $this->friendsWithUser = new ArrayCollection();
         $this->userFriends = new ArrayCollection();
+    }
+
+    function __toString()
+    {
+        return (string) $this->getUsername();
     }
 
     /**
@@ -435,4 +444,38 @@ class User implements AdvancedUserInterface, \Serializable
         return false;
     }
 
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 }

@@ -67,5 +67,6 @@ class AppFixtures implements FixtureInterface, ContainerAwareInterface
         $objects = Fixtures::load(__DIR__ . '/Entity/user.yml', $manager, ['providers' => [$this]]);
         $objects = Fixtures::load(__DIR__ . '/Entity/category.yml', $manager, ['providers' => [$this]]);
         $objects = Fixtures::load(__DIR__ . '/Entity/post.yml', $manager, ['providers' => [$this]]);
+        $objects = Fixtures::load(__DIR__ . '/Entity/comment.yml', $manager, ['providers' => [$this]]);
     }
 }

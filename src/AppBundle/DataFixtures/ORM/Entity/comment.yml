@@ -1,0 +1,10 @@
+AppBundle\Entity\Comment:
+    comment{1..1000}:
+        title: '<realText(30)>'
+        body: '<realText(255)>'
+        likes: '<numberBetween(1, 1000)>'
+        dislikes: '<numberBetween(1, 1000)>'
+        user: '@user_*'
+        post: '@post*'
+        status: '@status_*'
+

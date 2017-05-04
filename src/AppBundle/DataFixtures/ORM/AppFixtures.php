@@ -10,12 +10,11 @@ namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Hautelook\AliceBundle\Alice\DataFixtureLoader;
 use Nelmio\Alice\Fixtures;
 
-
-class AppFixtures implements FixtureInterface
-{
-    public function encodePassword(User $user, $plainPassword)
+class AppFixtures extends DataFixtureLoader {
+    public function encodepassword(User $user, $plainPassword)
     {
         /** @var \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface $encoder */
         $encoder = $this->container->get('security.encoder_factory')

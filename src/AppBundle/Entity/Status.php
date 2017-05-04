@@ -43,12 +43,12 @@ class Status
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="status")
      */
     private $posts;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="status")
      */
     private $images;
 

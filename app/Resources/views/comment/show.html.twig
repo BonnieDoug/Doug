@@ -1,42 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Post</h1>
+    <h1>Comment</h1>
 
     <table>
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ post.id }}</td>
+                <td>{{ comment.id }}</td>
             </tr>
             <tr>
                 <th>Title</th>
-                <td>{{ post.title }}</td>
+                <td>{{ comment.title }}</td>
             </tr>
             <tr>
                 <th>Body</th>
-                <td>{{ post.body }}</td>
+                <td>{{ comment.body }}</td>
             </tr>
             <tr>
                 <th>Likes</th>
-                <td>{{ post.likes }}</td>
+                <td>{{ comment.likes }}</td>
             </tr>
             <tr>
                 <th>Dislikes</th>
-                <td>{{ post.dislikes }}</td>
+                <td>{{ comment.dislikes }}</td>
             </tr>
         </tbody>
     </table>
 
-    {% include 'comment/recursive.template.html.twig' with {'comments': post.comments, 'level':  0} %}
-
-
     <ul>
         <li>
-            <a href="{{ path('blog_index') }}">Back to the list</a>
+            <a href="{{ path('blog_comment_index') }}">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('blog_edit', { 'id': post.id }) }}">Edit</a>
+            <a href="{{ path('blog_comment_edit', { 'id': comment.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}

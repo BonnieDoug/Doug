@@ -9,10 +9,11 @@ namespace AppBundle\Entity;
  */
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Repository\PostRepository;
 
 /**
  * @ORM\Table(name="posts")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PostRepository")
  */
 class Post
 {

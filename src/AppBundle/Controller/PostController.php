@@ -67,6 +67,10 @@ class PostController extends Controller
     {
         $deleteForm = $this->createDeleteForm($post);
 
+        $product = $this->getDoctrine()
+            ->getRepository('AppBundle:Post')
+            ->withTopLevelComments($post);
+
         return $this->render('post/show.html.twig', array(
             'post' => $post,
             'delete_form' => $deleteForm->createView(),

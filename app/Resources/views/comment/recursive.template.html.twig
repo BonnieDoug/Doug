@@ -1,0 +1,7 @@
+{% for comment in comments %}
+    <ul>
+    <li><h5>{{ comment.title }}</h5>
+    <p>{{ comment.body }}</p></li>
+    {% include 'comment/recursive.template.html.twig' with {'comments': comment.children, 'level': level + 1} %}
+    </ul>
+{% endfor %}

@@ -7,7 +7,6 @@ namespace AppBundle\Entity;
  * Date: 4/24/17
  * Time: 11:37 PM
  */
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
@@ -15,9 +14,10 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 /**
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks
  */
-class User implements AdvancedUserInterface, \Serializable
-{
+class User implements AdvancedUserInterface, \Serializable {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -70,6 +70,11 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $status;
 
+    /** @ORM\Column(type="datetime", name="created_at") */
+    private $createdAt;
+
+    /** @ORM\Column(type="datetime", name="updated_at", nullable=true) */
+    private $updatedAt;
 
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="userFriends")
@@ -93,8 +98,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->isActive = true;
         $this->posts = new ArrayCollection();
         $this->images = new ArrayCollection();
@@ -102,8 +106,7 @@ class User implements AdvancedUserInterface, \Serializable
         $this->userFriends = new ArrayCollection();
     }
 
-    function __toString()
-    {
+    function __toString() {
         return (string) $this->getUsername();
     }
 
@@ -112,8 +115,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -124,8 +126,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         $this->username = $username;
 
         return $this;
@@ -136,8 +137,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return string
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
@@ -148,8 +148,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         $this->password = $password;
 
         return $this;
@@ -160,18 +159,15 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return string
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
-    public function getPlainPassword()
-    {
+    public function getPlainPassword() {
         return $this->plainPassword;
     }
 
-    public function setPlainPassword($plainPassword)
-    {
+    public function setPlainPassword($plainPassword) {
         $this->plainPassword = $plainPassword;
         $this->password = null;
     }
@@ -183,8 +179,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -195,8 +190,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return string
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -207,8 +201,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function setIsActive($isActive)
-    {
+    public function setIsActive($isActive) {
         $this->isActive = $isActive;
 
         return $this;
@@ -219,8 +212,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return boolean
      */
-    public function getIsActive()
-    {
+    public function getIsActive() {
         return $this->isActive;
     }
 
@@ -231,8 +223,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function addPost(\AppBundle\Entity\Post $post)
-    {
+    public function addPost(\AppBundle\Entity\Post $post) {
         $this->posts[] = $post;
 
         return $this;
@@ -243,8 +234,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @param \AppBundle\Entity\Post $post
      */
-    public function removePost(\AppBundle\Entity\Post $post)
-    {
+    public function removePost(\AppBundle\Entity\Post $post) {
         $this->posts->removeElement($post);
     }
 
@@ -253,8 +243,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPosts()
-    {
+    public function getPosts() {
         return $this->posts;
     }
 
@@ -265,8 +254,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function addImage(\AppBundle\Entity\Image $image)
-    {
+    public function addImage(\AppBundle\Entity\Image $image) {
         $this->images[] = $image;
 
         return $this;
@@ -277,8 +265,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @param \AppBundle\Entity\Image $image
      */
-    public function removeImage(\AppBundle\Entity\Image $image)
-    {
+    public function removeImage(\AppBundle\Entity\Image $image) {
         $this->images->removeElement($image);
     }
 
@@ -287,8 +274,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getImages()
-    {
+    public function getImages() {
         return $this->images;
     }
 
@@ -299,8 +285,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function setStatus(\AppBundle\Entity\Status $status = null)
-    {
+    public function setStatus(\AppBundle\Entity\Status $status = null) {
         $this->status = $status;
 
         return $this;
@@ -311,8 +296,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return \AppBundle\Entity\Status
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -323,8 +307,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function addFriendsWithUser(\AppBundle\Entity\User $friendsWithUser)
-    {
+    public function addFriendsWithUser(\AppBundle\Entity\User $friendsWithUser) {
         $this->friendsWithUser[] = $friendsWithUser;
 
         return $this;
@@ -335,8 +318,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @param \AppBundle\Entity\User $friendsWithUser
      */
-    public function removeFriendsWithUser(\AppBundle\Entity\User $friendsWithUser)
-    {
+    public function removeFriendsWithUser(\AppBundle\Entity\User $friendsWithUser) {
         $this->friendsWithUser->removeElement($friendsWithUser);
     }
 
@@ -345,8 +327,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getFriendsWithUser()
-    {
+    public function getFriendsWithUser() {
         return $this->friendsWithUser;
     }
 
@@ -357,8 +338,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function addUserFriend(\AppBundle\Entity\User $userFriend)
-    {
+    public function addUserFriend(\AppBundle\Entity\User $userFriend) {
         $this->userFriends[] = $userFriend;
 
         return $this;
@@ -369,8 +349,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @param \AppBundle\Entity\User $userFriend
      */
-    public function removeUserFriend(\AppBundle\Entity\User $userFriend)
-    {
+    public function removeUserFriend(\AppBundle\Entity\User $userFriend) {
         $this->userFriends->removeElement($userFriend);
     }
 
@@ -379,71 +358,59 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUserFriends()
-    {
+    public function getUserFriends() {
         return $this->userFriends;
     }
 
-    public function getRoles()
-    {
+    public function getRoles() {
         return array('ROLE_USER');
     }
 
-    public function eraseCredentials()
-    {
+    public function eraseCredentials() {
         $this->plainPassword = null;
     }
 
-    public function isAccountNonExpired()
-    {
+    public function isAccountNonExpired() {
         return true;
     }
 
-    public function isAccountNonLocked()
-    {
+    public function isAccountNonLocked() {
         return true;
     }
 
-    public function isCredentialsNonExpired()
-    {
+    public function isCredentialsNonExpired() {
         return true;
     }
 
-    public function isEnabled()
-    {
+    public function isEnabled() {
         return $this->isActive;
     }
 
-
     /** @see \Serializable::serialize() */
-    public function serialize()
-    {
+    public function serialize() {
         return serialize(
-            array(
-                $this->id,
-                $this->username,
-                $this->password,
-                $this->isActive
-            )
+                array(
+                    $this->id,
+                    $this->username,
+                    $this->password,
+                    $this->isActive
+                )
         );
     }
 
     /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         list (
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->isActive
-            ) = unserialize($serialized);
+                $this->id,
+                $this->username,
+                $this->password,
+                $this->isActive
+                ) = unserialize($serialized);
     }
 
-    public function getSalt()
-    {
+    public function getSalt() {
         return false;
     }
-
 
     /**
      * Add comment
@@ -452,8 +419,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return User
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
-    {
+    public function addComment(\AppBundle\Entity\Comment $comment) {
         $this->comments[] = $comment;
 
         return $this;
@@ -464,8 +430,7 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @param \AppBundle\Entity\Comment $comment
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
-    {
+    public function removeComment(\AppBundle\Entity\Comment $comment) {
         $this->comments->removeElement($comment);
     }
 
@@ -474,8 +439,69 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getComments()
-    {
+    public function getComments() {
         return $this->comments;
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps() {
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
+    }
+
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return User
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

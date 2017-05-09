@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Entity;
 
 /**
@@ -14,9 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="images")
  * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
  */
-class Image
-{
+class Image {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -32,6 +32,12 @@ class Image
 
     /** @ORM\Column(type="string", length=200) */
     private $urlSafeName;
+
+    /** @ORM\Column(type="datetime", name="created_at") */
+    private $createdAt;
+
+    /** @ORM\Column(type="datetime", name="updated_at", nullable=true) */
+    private $updatedAt;
 
     /**
      * @ORM\Column(type="text")
@@ -77,12 +83,10 @@ class Image
      */
     private $categories;
 
-
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->categories = new ArrayCollection();
     }
 
@@ -91,8 +95,7 @@ class Image
      *
      * @return string
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -103,8 +106,7 @@ class Image
      *
      * @return Image
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -115,8 +117,7 @@ class Image
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -127,8 +128,7 @@ class Image
      *
      * @return Image
      */
-    public function setFileName($fileName)
-    {
+    public function setFileName($fileName) {
         $this->fileName = $fileName;
 
         return $this;
@@ -139,8 +139,7 @@ class Image
      *
      * @return string
      */
-    public function getFileName()
-    {
+    public function getFileName() {
         return $this->fileName;
     }
 
@@ -151,8 +150,7 @@ class Image
      *
      * @return Image
      */
-    public function setUrlSafeName($urlSafeName)
-    {
+    public function setUrlSafeName($urlSafeName) {
         $this->urlSafeName = $urlSafeName;
 
         return $this;
@@ -163,8 +161,7 @@ class Image
      *
      * @return string
      */
-    public function getUrlSafeName()
-    {
+    public function getUrlSafeName() {
         return $this->urlSafeName;
     }
 
@@ -175,8 +172,7 @@ class Image
      *
      * @return Image
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -187,8 +183,7 @@ class Image
      *
      * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -199,8 +194,7 @@ class Image
      *
      * @return Image
      */
-    public function setLikes($likes)
-    {
+    public function setLikes($likes) {
         $this->likes = $likes;
 
         return $this;
@@ -211,8 +205,7 @@ class Image
      *
      * @return integer
      */
-    public function getLikes()
-    {
+    public function getLikes() {
         return $this->likes;
     }
 
@@ -223,8 +216,7 @@ class Image
      *
      * @return Image
      */
-    public function setDislikes($dislikes)
-    {
+    public function setDislikes($dislikes) {
         $this->dislikes = $dislikes;
 
         return $this;
@@ -235,8 +227,7 @@ class Image
      *
      * @return integer
      */
-    public function getDislikes()
-    {
+    public function getDislikes() {
         return $this->dislikes;
     }
 
@@ -247,8 +238,7 @@ class Image
      *
      * @return Image
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
-    {
+    public function setUser(\AppBundle\Entity\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -259,8 +249,7 @@ class Image
      *
      * @return \AppBundle\Entity\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -271,8 +260,7 @@ class Image
      *
      * @return Image
      */
-    public function setPost(\AppBundle\Entity\User $post = null)
-    {
+    public function setPost(\AppBundle\Entity\User $post = null) {
         $this->post = $post;
 
         return $this;
@@ -283,8 +271,7 @@ class Image
      *
      * @return \AppBundle\Entity\Post
      */
-    public function getPost()
-    {
+    public function getPost() {
         return $this->post;
     }
 
@@ -295,8 +282,7 @@ class Image
      *
      * @return Image
      */
-    public function setStatus(\AppBundle\Entity\Status $status = null)
-    {
+    public function setStatus(\AppBundle\Entity\Status $status = null) {
         $this->status = $status;
 
         return $this;
@@ -307,8 +293,7 @@ class Image
      *
      * @return \AppBundle\Entity\Status
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -319,8 +304,7 @@ class Image
      *
      * @return Image
      */
-    public function addCategory(\AppBundle\Entity\Category $category)
-    {
+    public function addCategory(\AppBundle\Entity\Category $category) {
         $this->categories[] = $category;
 
         return $this;
@@ -331,8 +315,7 @@ class Image
      *
      * @param \AppBundle\Entity\Category $category
      */
-    public function removeCategory(\AppBundle\Entity\Category $category)
-    {
+    public function removeCategory(\AppBundle\Entity\Category $category) {
         $this->categories->removeElement($category);
     }
 
@@ -341,8 +324,69 @@ class Image
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCategories()
-    {
+    public function getCategories() {
         return $this->categories;
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps() {
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
+    }
+
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Image
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Image
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

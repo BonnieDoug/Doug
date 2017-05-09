@@ -14,9 +14,10 @@ use AppBundle\Entity\Repository\PostRepository;
 /**
  * @ORM\Table(name="posts")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PostRepository")
+ * @ORM\HasLifecycleCallbacks
  */
-class Post
-{
+class Post {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -35,6 +36,12 @@ class Post
      * @ORM\Column(type="text")
      */
     private $body;
+
+    /** @ORM\Column(type="datetime", name="created_at") */
+    private $createdAt;
+
+    /** @ORM\Column(type="datetime", name="updated_at", nullable=true) */
+    private $updatedAt;
 
     /**
      * Url string, not a mapped field
@@ -88,8 +95,7 @@ class Post
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->categories = new ArrayCollection();
@@ -100,8 +106,7 @@ class Post
      *
      * @return string
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -112,8 +117,7 @@ class Post
      *
      * @return Post
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
 
         return $this;
@@ -124,8 +128,7 @@ class Post
      *
      * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -136,8 +139,7 @@ class Post
      *
      * @return Post
      */
-    public function setBody($body)
-    {
+    public function setBody($body) {
         $this->body = $body;
 
         return $this;
@@ -148,8 +150,7 @@ class Post
      *
      * @return string
      */
-    public function getBody()
-    {
+    public function getBody() {
         return $this->body;
     }
 
@@ -160,8 +161,7 @@ class Post
      *
      * @return Post
      */
-    public function setLikes($likes)
-    {
+    public function setLikes($likes) {
         $this->likes = $likes;
 
         return $this;
@@ -172,8 +172,7 @@ class Post
      *
      * @return integer
      */
-    public function getLikes()
-    {
+    public function getLikes() {
         return $this->likes;
     }
 
@@ -184,8 +183,7 @@ class Post
      *
      * @return Post
      */
-    public function setDislikes($dislikes)
-    {
+    public function setDislikes($dislikes) {
         $this->dislikes = $dislikes;
 
         return $this;
@@ -196,8 +194,7 @@ class Post
      *
      * @return integer
      */
-    public function getDislikes()
-    {
+    public function getDislikes() {
         return $this->dislikes;
     }
 
@@ -208,8 +205,7 @@ class Post
      *
      * @return Post
      */
-    public function addImage(\AppBundle\Entity\Image $image)
-    {
+    public function addImage(\AppBundle\Entity\Image $image) {
         $this->images[] = $image;
 
         return $this;
@@ -220,8 +216,7 @@ class Post
      *
      * @param \AppBundle\Entity\Image $image
      */
-    public function removeImage(\AppBundle\Entity\Image $image)
-    {
+    public function removeImage(\AppBundle\Entity\Image $image) {
         $this->images->removeElement($image);
     }
 
@@ -230,8 +225,7 @@ class Post
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getImages()
-    {
+    public function getImages() {
         return $this->images;
     }
 
@@ -242,8 +236,7 @@ class Post
      *
      * @return Post
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
-    {
+    public function setUser(\AppBundle\Entity\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -254,8 +247,7 @@ class Post
      *
      * @return \AppBundle\Entity\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -266,8 +258,7 @@ class Post
      *
      * @return Post
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
-    {
+    public function addComment(\AppBundle\Entity\Comment $comment) {
         $this->comments[] = $comment;
 
         return $this;
@@ -278,8 +269,7 @@ class Post
      *
      * @param \AppBundle\Entity\Comment $comment
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
-    {
+    public function removeComment(\AppBundle\Entity\Comment $comment) {
         $this->comments->removeElement($comment);
     }
 
@@ -288,8 +278,7 @@ class Post
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getComments()
-    {
+    public function getComments() {
         return $this->comments;
     }
 
@@ -300,8 +289,7 @@ class Post
      *
      * @return Post
      */
-    public function setStatus(\AppBundle\Entity\Status $status = null)
-    {
+    public function setStatus(\AppBundle\Entity\Status $status = null) {
         $this->status = $status;
 
         return $this;
@@ -312,8 +300,7 @@ class Post
      *
      * @return \AppBundle\Entity\Status
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -324,8 +311,7 @@ class Post
      *
      * @return Post
      */
-    public function addCategory(\AppBundle\Entity\Category $category)
-    {
+    public function addCategory(\AppBundle\Entity\Category $category) {
         $this->categories[] = $category;
 
         return $this;
@@ -336,8 +322,7 @@ class Post
      *
      * @param \AppBundle\Entity\Category $category
      */
-    public function removeCategory(\AppBundle\Entity\Category $category)
-    {
+    public function removeCategory(\AppBundle\Entity\Category $category) {
         $this->categories->removeElement($category);
     }
 
@@ -346,8 +331,69 @@ class Post
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCategories()
-    {
+    public function getCategories() {
         return $this->categories;
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps() {
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
+    }
+
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Post
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Post
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

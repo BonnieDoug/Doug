@@ -1,0 +1,26 @@
+/*  .card-image {
+    position: relative;
+
+    // Image background for content
+    img {
+      display: block;
+      border-radius: 2px 2px 0 0;
+      position: relative;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }*/
+
+.card .card-image .card-title {
+      color: $card-bg-color;
+      background-color:rgba(0, 0, 0, 0.4);
+      font-size: 19px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 19px;
+    }
+  /*}*/

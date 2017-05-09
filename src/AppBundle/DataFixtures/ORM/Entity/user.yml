@@ -9,4 +9,5 @@ AppBundle\Entity\User:
         password: "<encodepassword('password')>"
         email: '<email()>'
         status: '@status_*'
-
+        createdAt: '<dateTimeBetween("-200 days", "now")>'
+        updatedAt: '30%? <dateTimeBetween($createdAt, "now")>'

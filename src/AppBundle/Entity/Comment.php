@@ -13,19 +13,22 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="comments")
  * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
  */
-class Comment
-{
+class Comment {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
     /**
      * @ORM\Column(type="string", length=100)
      */
     private $title;
+
     /**
      * @ORM\Column(type="text")
      */
@@ -42,6 +45,12 @@ class Comment
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $post;
+
+    /** @ORM\Column(type="datetime", name="created_at") */
+    private $createdAt;
+
+    /** @ORM\Column(type="datetime", name="updated_at", nullable=true) */
+    private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent")
@@ -77,8 +86,7 @@ class Comment
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->children = new ArrayCollection();
     }
 
@@ -87,8 +95,7 @@ class Comment
      *
      * @return string
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -99,8 +106,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
 
         return $this;
@@ -111,8 +117,7 @@ class Comment
      *
      * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -123,8 +128,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setBody($body)
-    {
+    public function setBody($body) {
         $this->body = $body;
 
         return $this;
@@ -135,8 +139,7 @@ class Comment
      *
      * @return string
      */
-    public function getBody()
-    {
+    public function getBody() {
         return $this->body;
     }
 
@@ -147,8 +150,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setLikes($likes)
-    {
+    public function setLikes($likes) {
         $this->likes = $likes;
 
         return $this;
@@ -159,8 +161,7 @@ class Comment
      *
      * @return integer
      */
-    public function getLikes()
-    {
+    public function getLikes() {
         return $this->likes;
     }
 
@@ -171,8 +172,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setDislikes($dislikes)
-    {
+    public function setDislikes($dislikes) {
         $this->dislikes = $dislikes;
 
         return $this;
@@ -183,8 +183,7 @@ class Comment
      *
      * @return integer
      */
-    public function getDislikes()
-    {
+    public function getDislikes() {
         return $this->dislikes;
     }
 
@@ -195,8 +194,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
-    {
+    public function setUser(\AppBundle\Entity\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -207,8 +205,7 @@ class Comment
      *
      * @return \AppBundle\Entity\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -219,8 +216,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setPost(\AppBundle\Entity\Post $post = null)
-    {
+    public function setPost(\AppBundle\Entity\Post $post = null) {
         $this->post = $post;
 
         return $this;
@@ -231,8 +227,7 @@ class Comment
      *
      * @return \AppBundle\Entity\Post
      */
-    public function getPost()
-    {
+    public function getPost() {
         return $this->post;
     }
 
@@ -243,8 +238,7 @@ class Comment
      *
      * @return Comment
      */
-    public function addChild(\AppBundle\Entity\Comment $child)
-    {
+    public function addChild(\AppBundle\Entity\Comment $child) {
         $this->children[] = $child;
 
         return $this;
@@ -255,8 +249,7 @@ class Comment
      *
      * @param \AppBundle\Entity\Comment $child
      */
-    public function removeChild(\AppBundle\Entity\Comment $child)
-    {
+    public function removeChild(\AppBundle\Entity\Comment $child) {
         $this->children->removeElement($child);
     }
 
@@ -265,8 +258,7 @@ class Comment
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getChildren()
-    {
+    public function getChildren() {
         return $this->children;
     }
 
@@ -277,8 +269,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setParent(\AppBundle\Entity\Comment $parent = null)
-    {
+    public function setParent(\AppBundle\Entity\Comment $parent = null) {
         $this->parent = $parent;
 
         return $this;
@@ -289,8 +280,7 @@ class Comment
      *
      * @return \AppBundle\Entity\Comment
      */
-    public function getParent()
-    {
+    public function getParent() {
         return $this->parent;
     }
 
@@ -301,8 +291,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setStatus(\AppBundle\Entity\Status $status = null)
-    {
+    public function setStatus(\AppBundle\Entity\Status $status = null) {
         $this->status = $status;
 
         return $this;
@@ -313,8 +302,69 @@ class Comment
      *
      * @return \AppBundle\Entity\Status
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps() {
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
+    }
+
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Comment
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Comment
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

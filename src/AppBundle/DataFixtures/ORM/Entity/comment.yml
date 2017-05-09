@@ -7,4 +7,6 @@ AppBundle\Entity\Comment:
         user: '@user_*'
         post: '@post*'
         status: '@status_*'
-
+        parent: 50%? '@comment*'
+        createdAt: '<dateTimeBetween("-200 days", "now")>'
+        updatedAt: '30%? <dateTimeBetween($createdAt, "now")>'

@@ -8,25 +8,29 @@
             <div class="col s12 m6 l4">
                 <article class="card">
                     <header class="card-image medium">
-                        <a href="{{ path('blog_show', { 'id': post.id }) }}"><img src="https://unsplash.it/600/400/?random"></a>
+                        <a href="{{ path('blog_show', { 'id': post.id }) }}"><img src="https://unsplash.it/600/400"></a>
                         <span class="card-title"><strong>{{ post.createdAt|date("d/m/Y") }}</strong> - <em>{{ post.user.username|capitalize }}</em></span>
                     </header>
-                    <div class="card-content match-height">
-                        <h2 class="card-title">{{ post.title|capitalize }}</h2>
+                    <section class="card-content match-height">
+                        <h2 class="card-title flow-text">{{ post.title|capitalize }}</h2>
                         <p>{{ post.body|slice(0,150)~'...' }}<a href="{{ path('blog_show', { 'id': post.id }) }}">Continue Reading.</a></p>                        
-                    </div>
+                    </section>                            
                     <footer class="card-action">
-                        <ul>
+                        <ul class="text-center">
                             {% for category in post.categories %}                           
-                                <li class="chip">{{ category.name }}</li>
+                                <li class="inline-items">
+                                    <a href="#" class="chip">{{ category.name }}</a>
+                                </li>
                             {% endfor %}
                         </ul>
                     </footer>
                 </article>
             </div>
         {% endfor %}
+        <footer>{{ knp_pagination_render(posts) }}</footer>  
     </section>
-    <table>
+        
+    {#<table>
         <thead>
             <tr>
                 <th>Id</th>
@@ -58,7 +62,7 @@
                 </tr>
             {% endfor %}
         </tbody>
-    </table>
+    </table>#}
 
     <ul>
         <li>

@@ -16,9 +16,10 @@ class PostRepository extends EntityRepository {
     public function withTopLevelComments($post) {
         return $this->createQueryBuilder("p")
                         ->leftJoin("p.comments", "c")
+                        ->leftJoin("p.status", "s")
                         ->where("p = :post")
                         ->andWhere("c.parent IS NULL")
-//                        ->andWhere("p.status = 1")
+                        ->andWhere("s.name = 'Active'")
                         ->setParameter("post", $post)
                         ->getQuery()->getResult();
         ;

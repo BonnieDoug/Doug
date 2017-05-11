@@ -26,37 +26,37 @@
 
 
 
-    <table>
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ post.id }}</td>
-        </tr>
-        <tr>
-            <th>Title</th>
-            <td>{{ post.title }}</td>
-        </tr>
-        <tr>
-            <th>Body</th>
-            <td>{{ post.body }}</td>
-        </tr>
-        <tr>
-            <th>Likes</th>
-            <td>{{ post.likes }}</td>
-        </tr>
-        <tr>
-            <th>Dislikes</th>
-            <td>{{ post.dislikes }}</td>
-        </tr>
-        </tbody>
-    </table>
+    {#<table>#}
+        {#<tbody>#}
+        {#<tr>#}
+            {#<th>Id</th>#}
+            {#<td>{{ post.id }}</td>#}
+        {#</tr>#}
+        {#<tr>#}
+            {#<th>Title</th>#}
+            {#<td>{{ post.title }}</td>#}
+        {#</tr>#}
+        {#<tr>#}
+            {#<th>Body</th>#}
+            {#<td>{{ post.body }}</td>#}
+        {#</tr>#}
+        {#<tr>#}
+            {#<th>Likes</th>#}
+            {#<td>{{ post.likes }}</td>#}
+        {#</tr>#}
+        {#<tr>#}
+            {#<th>Dislikes</th>#}
+            {#<td>{{ post.dislikes }}</td>#}
+        {#</tr>#}
+        {#</tbody>#}
+    {#</table>#}
 
     {% include 'comment/recursive.template.html.twig' with {'comments': post.comments, 'level':  0} %}
 
 
     <ul>
         <li>
-            <a href="{{ path('blog_index') }}">Back to the list</a>
+            <a href="{{ path('blog_index') }}">Back to Blog</a>
         </li>
         <li>
             <a href="{{ path('blog_edit', { 'id': post.id }) }}">Edit</a>

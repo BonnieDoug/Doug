@@ -24,12 +24,12 @@ class PostController extends Controller {
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
-        $posts = $em->getRepository('AppBundle:Post')->findAll();
+//        $posts = $em->getRepository('AppBundle:Post')->findAll();
 //        $posts = $em->getRepository('AppBundle:Post')->paginateFindAll($request, $this->get('knp_paginator'));
 
 
         return $this->render('post/index.html.twig', array(
-                    'posts' => $posts,
+                    'posts' => $em->getRepository('AppBundle:Post')->paginateFindAll($request, $this->get('knp_paginator')),
         ));
     }
 

@@ -18,6 +18,9 @@
     <nav role="navigation">
         <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Doug</a>
             <ul class="right hide-on-med-and-down">
+                <li>
+    <a href="{{ path('blog_index') }}">Blog</a>
+                </li>
                 {% if not app.user %}
                     <li>
                         <a href="{{ url('security_login') }}"
@@ -26,7 +29,7 @@
                         </a>
                     </li>
                 {% else %}
-                    <li>
+                    <li>Welcome: {{ app.user.username }}
                         <a href="{{ url('security_logout') }}"
                            class="btn-floating btn-sm waves-effect waves-light red">
                             <i class="material-icons">power_settings_new</i></a>

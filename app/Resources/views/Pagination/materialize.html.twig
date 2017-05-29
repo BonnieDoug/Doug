@@ -1,7 +1,6 @@
-<div class="text-center ">
+<div class="text-center">
     {% if pageCount > 1 %}
         <ul class="pagination">
-
             {% if previous is defined %}
                 <li>
                     <a rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}"><i class="material-icons">chevron_left</i></a>

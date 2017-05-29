@@ -1,15 +1,3 @@
-Doug
-====
+This is currently a work in porgress application. Eventually it is intended to be a learning resource aimed at teaching howto use Symfony3, Doctrine and a bunch of other web technologies. In the form of a Blog, to make the very website the user read, the blog on. I'm currently in the process of documenting every stage of the process as I work through the develoment. 
 
-A Symfony project created on April 24, 2017, 10:13 pm.
-
-
-
-
-//    "require-dev": {
-//        "doctrine/data-fixtures": "^1.2",
-//        "doctrine/doctrine-fixtures-bundle": "^2.3",
-//        "nelmio/alice": "^2.3",
-//        "sensio/generator-bundle": "^3.0",
-//        "symfony/phpunit-bridge": "^3.0"
-//    },
+The current progress can be viewed at http://doughayward.herokuapp.com 
